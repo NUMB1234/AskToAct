@@ -1,0 +1,10 @@
+### model
+model_name_or_path: /path/to/your/model
+adapter_name_or_path: /path/to/your/adapter
+template: <model_template>    # e.g., qwen, llama3, etc.
+
+### export
+export_dir: /path/to/saves
+export_size: 5    # number of shards, adjust based on model size
+export_device: cpu
+export_legacy_format: false
