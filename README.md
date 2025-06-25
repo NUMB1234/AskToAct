@@ -4,17 +4,26 @@
 
 <p align="center">
   <a href="https://www.arxiv.org/abs/2503.01940">Paper</a> |
-  <!-- <a href="">Model</a> | -->
-    <!-- <a href="">Usage</a> | -->
-  <a href="">Fine-Tuning</a> |
-  <!-- <a href="">Evaluation</a> | -->
+  <a href="https://huggingface.co/NUMB1234/AskToAct-7B">Model</a> |
+  <a href="#Fine-Tuning">Fine-Tuning</a> |
+  <a href="#Evaluation">Evaluation</a> 
 </p>
 
 
-## Fine-Tuning
+## 🔍 Overview
+**AskToAct** is a self-correcting clarification framework that directly addresses the challenge of **handling unspecified queries** in tool-use scenarios. It enables LLMs to: (1) identify when a query lacks critical information,   (2) interactively elicit missing intent through clarification, and   (3) recover from common errors during multi-turn interactions.
 
-### Installation
 
+To support scalable research and development, we release:
+
+- **A high-quality dataset** comprising clarification dialogues with built-in error correction, along with a dedicated test set of unspecified queries paired with ground-truth annotations.
+
+- Full **training and evaluation scripts** to reproduce our results or benchmark new models.
+
+
+## 🛠️ Fine-Tuning
+
+### Setup
 
 ```bash
 conda create -n taskbench python=3.10
@@ -41,8 +50,17 @@ Run full-parameter fine-tuning:
 llamafactory-cli train examples/my_full_sft.yaml
 ```
 
-**Note:** Please ensure that `examples/my_lora_sft.yaml`, `examples/my_lora_merge.yaml`, `examples/my_full_sft.yaml`, and `data/dataset_info.json` are all properly configured before training.
+Please ensure that [examples/my_lora_sft.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_lora_sft.yaml), [examples/my_lora_merge.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_lora_merge.yaml), [examples/my_full_sft.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_full_sft.yaml), and [data/dataset_info.json](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/data/dataset_info.json) are all properly configured before training.
 
+
+## 📊 Evaluation
+
+### Setup
+
+```bash
+pip install vllm
+./runvllm [-m model_path] [-p port] [-g gpu_index] [-q quantization] [-l max_model_len]
+```
 
 
 ## Citation

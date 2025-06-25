@@ -1,0 +1,54 @@
+#!/bin/bash
+# Usage: ./runvllm [-m model_path] [-p port] [-g gpu_index] [-q quantization] [-l max_model_len]
+
+# Default values
+MODEL_PATH=""     
+PORT=8100  
+GPU_INDEX="0"  
+QUANTIZATION="None"  
+TENSOR_PARALLEL_SIZE=1  
+GPU_MEMORY_UTILIZATION=0.95
+MAX_MODEL_LEN=4096
+MODEL_PREFIX=""  # 相对路径的前缀
+
+# Parse command line arguments
+while getopts "m:p:g:q:l:" opt; do
+  case $opt in
+    m) MODEL_PATH=$OPTARG ;;
+    p) PORT=$OPTARG ;;
+    g) GPU_INDEX=$OPTARG ;;
+    q) QUANTIZATION=$OPTARG ;;
+    l) MAX_MODEL_LEN=$OPTARG ;;
+    *) echo "Usage: $0 [-m model_path] [-p port] [-g gpu_index] [-q quantization] [-l max_model_len]"; exit 1 ;;
+  esac
+done
+
+TENSOR_PARALLEL_SIZE=$(echo $GPU_INDEX | tr ',' '\n' | wc -l)
+
+# Expand ~ to home directory and check if the model path is relative or absolute
+if [[ "$MODEL_PATH" == /* ]]; then
+  # Absolute path, no modification needed
+  ABS_MODEL_PATH="$MODEL_PATH"
+else
+  # Relative path, prepend the model prefix
+  ABS_MODEL_PATH="$MODEL_PREFIX/$MODEL_PATH"
+fi
+
+# Check if the model path exists
+if [ ! -d "$ABS_MODEL_PATH" ]; then
+  echo "Error: Model path '$ABS_MODEL_PATH' does not exist."
+  exit 1
+fi
+
+# Get the basename of the model path (model directory or file name)
+MODEL_BASENAME=$(basename "$ABS_MODEL_PATH")
+# MODEL_BASENAME='checkpoint-94'
+
+# Command to run the model server
+COMMAND="vllm serve $ABS_MODEL_PATH --quantization $QUANTIZATION --tensor-parallel-size $TENSOR_PARALLEL_SIZE --served-model-name $MODEL_BASENAME --gpu_memory_utilization $GPU_MEMORY_UTILIZATION --max_model_len $MAX_MODEL_LEN --port $PORT" 
+
+echo "[Running command] CUDA_VISIBLE_DEVICES=$GPU_INDEX $COMMAND"
+
+# Run with environment variable
+CUDA_VISIBLE_DEVICES=$GPU_INDEX $COMMAND
+
