@@ -53,15 +53,6 @@ llamafactory-cli train examples/my_full_sft.yaml
 Please ensure that [examples/my_lora_sft.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_lora_sft.yaml), [examples/my_lora_merge.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_lora_merge.yaml), [examples/my_full_sft.yaml](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/examples/my_full_sft.yaml), and [data/dataset_info.json](https://github.com/NUMB1234/AskToAct/blob/main/LLaMA-Factory/data/dataset_info.json) are all properly configured before training.
 
 
-% ## Evaluation
-
-% ### Setup
-
-% ```bash
-% pip install vllm
-% ./runvllm [-m model_path] [-p port] [-g gpu_index] [-q quantization] [-l max_model_len]
-% ```
-
 
 ## Citation
 
