@@ -3,7 +3,7 @@
 </div>
 
 <p align="center">
-  <a href="https://www.arxiv.org/abs/2503.01940">Paper</a> |
+  <a href="https://www.arxiv.org/pdf/2503.01940">Paper</a> |
   <a href="https://huggingface.co/NUMB1234/AskToAct-7B">Model</a> |
   <a href="#fine-tuning">Fine-Tuning</a> 
 <!--   <a href="#evaluation">Evaluation</a>  -->
